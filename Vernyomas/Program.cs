@@ -11,6 +11,10 @@ namespace Vernyomas
     {
         static void Main()
         {
+            Menü();
+        }
+        static void Menü()
+        {
             string[] menuReszek = { "Regisztáció", "Bejelentkezés", "Kilépés" };
             int kivalasztott = 0;
             ConsoleKey keyPress;
@@ -36,15 +40,15 @@ namespace Vernyomas
                     }
                 }
 
-                
+
                 keyPress = Console.ReadKey(true).Key;
 
-                
+
                 if (keyPress == ConsoleKey.Tab)
                 {
                     kivalasztott = (kivalasztott + 1) % menuReszek.Length;
                 }
-                
+
                 else if (keyPress == ConsoleKey.Enter)
                 {
                     Console.Clear();
@@ -54,11 +58,11 @@ namespace Vernyomas
 
             if (kivalasztott == 0)
             {
-                Regisztáció()
+                //regisztráció logika ide
             }
             else if (kivalasztott == 1)
             {
-                Bejelentkezés()
+                // Bejelentkezés logika ide
             }
             else if (kivalasztott == 2)
             {
