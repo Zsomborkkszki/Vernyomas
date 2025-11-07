@@ -24,6 +24,23 @@ namespace Vernyomas
             Console.Clear();
             return "Sikeres regisztráció!";
         }
+        static string Bejelentkezes()
+        {
+            Console.Clear();
+            Console.WriteLine("Milyen néven regisztrált?");
+            string bej_nev = Console.ReadLine();
+            string fajlnev = $"{bej_nev}.txt";
+            if (File.Exists(fajlnev))
+            {
+                Console.Clear();
+                string tartalom = File.ReadAllText(fajlnev);
+                return $"Felhasználói adatok:\n{tartalom}";
+            }
+            else
+            {
+                return "Nincs ilyen felhasználó!";
+            }
+        }
         static void Menü()
         {
             string[] menuReszek = { "Regisztáció", "Bejelentkezés", "Kilépés" };
