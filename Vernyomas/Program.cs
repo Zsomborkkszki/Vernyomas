@@ -86,11 +86,11 @@ namespace Vernyomas
 
             if (kivalasztott == 0)
             {
-                //regisztráció logika ide
+                Regisztracio();
             }
             else if (kivalasztott == 1)
             {
-                // Bejelentkezés logika ide
+                Bejelentkezes();
             }
             else if (kivalasztott == 2)
             {
