@@ -13,6 +13,17 @@ namespace Vernyomas
         {
             Menü();
         }
+        static string Regisztracio()
+        {
+            Console.Clear();
+            Console.WriteLine("Név: ");
+            string reg_nev = Console.ReadLine();
+            Console.WriteLine("Születési dátum (ÉÉÉÉ-HH-NN): ");
+            string datum = Console.ReadLine();
+            File.WriteAllText($"{reg_nev}.txt", $"Név: {reg_nev}\nDátum: {datum}");
+            Console.Clear();
+            return "Sikeres regisztráció!";
+        }
         static void Menü()
         {
             string[] menuReszek = { "Regisztáció", "Bejelentkezés", "Kilépés" };
