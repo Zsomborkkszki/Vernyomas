@@ -149,7 +149,11 @@ namespace Vernyomas
             Console.WriteLine("Milyen néven regisztrált?");
             string bej_nev = Console.ReadLine();
             string fajlnev = $"{bej_nev}.txt";
+            return Meres(fajlnev);
+        }
 
+        private static string Meres(string fajlnev)
+        {
             if (File.Exists(fajlnev))
             {
                 Console.Clear();
@@ -234,18 +238,21 @@ namespace Vernyomas
 
         public string Ertekeles()
         {
-            if (Szisztoles < 120 && Diasztoles < 80)
-                return "Normális";
-            else if (Szisztoles >= 120 && Szisztoles <= 129 && Diasztoles < 80)
-                return "Emelkedett";
-            else if ((Szisztoles >= 130 && Szisztoles <= 139) || (Diasztoles >= 80 && Diasztoles <= 89))
-                return "Magas vérnyomás (1. fok)";
-            else if ((Szisztoles >= 140 && Szisztoles <= 180) || (Diasztoles >= 90 && Diasztoles <= 120))
-                return "Magas vérnyomás (2. fok)";
-            else if (Szisztoles > 180 || Diasztoles > 120)
-                return "Válságos (keressen orvost)";
-            else
-                return "Ismeretlen érték";
+            if(Eletkor==25){ 
+                if (Szisztoles < 120 && Diasztoles < 80)
+                    return "Normális";
+                else if (Szisztoles >= 120 && Szisztoles <= 129 && Diasztoles < 80)
+                    return "Emelkedett";
+                else if ((Szisztoles >= 130 && Szisztoles <= 139) || (Diasztoles >= 80 && Diasztoles <= 89))
+                    return "Magas vérnyomás (1. fok)";
+                else if ((Szisztoles >= 140 && Szisztoles <= 180) || (Diasztoles >= 90 && Diasztoles <= 120))
+                    return "Magas vérnyomás (2. fok)";
+                else if (Szisztoles > 180 || Diasztoles > 120)
+                    return "Válságos (keressen orvost)";
+                else
+                    return "Ismeretlen érték";
+            }
+            return "teszt";
         }
     }
 }
