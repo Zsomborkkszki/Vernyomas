@@ -224,9 +224,9 @@ namespace Vernyomas
     /// </summary>
     class VerNyomas
     {
-        public int Szisztoles { get; set; }
-        public int Diasztoles { get; set; }
-        public int Eletkor { get; set; }
+        public int Szisztoles;
+        public int Diasztoles;
+        public int Eletkor;
 
         // Konstruktor
         public VerNyomas(int sziszt, int diaszt, int eletkor)
