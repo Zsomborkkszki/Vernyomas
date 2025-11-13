@@ -12,34 +12,8 @@ namespace Vernyomas
         /// <summary>
         /// Menü kezelő funkció, amely lehetővé teszi a felhasználó számára a regisztrációt, bejelentkezést vagy kilépést.
         /// </summary>
-        static string Regisztracio()
-        {
-            Console.Clear();
-            Console.WriteLine("Név: ");
-            string reg_nev = Console.ReadLine();
-            Console.WriteLine("Születési dátum (ÉÉÉÉ-HH-NN): ");
-            string datum = Console.ReadLine();
-            File.WriteAllText($"{reg_nev}.txt", $"Név: {reg_nev}\nDátum: {datum}");
-            Console.Clear();
-            return "Sikeres regisztráció!";
-        }
-        static string Bejelentkezes()
-        {
-            Console.Clear();
-            Console.WriteLine("Milyen néven regisztrált?");
-            string bej_nev = Console.ReadLine();
-            string fajlnev = $"{bej_nev}.txt";
-            if (File.Exists(fajlnev))
-            {
-                Console.Clear();
-                string tartalom = File.ReadAllText(fajlnev);
-                return $"Felhasználói adatok:\n{tartalom}";
-            }
-            else
-            {
-                return "Nincs ilyen felhasználó!";
-            }
-        }
+        
+        
         static void Menü()
         {
             string[] menuReszek = { "Regisztáció", "Bejelentkezés", "Kilépés" };
