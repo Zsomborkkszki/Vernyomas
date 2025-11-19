@@ -229,6 +229,7 @@ namespace Vernyomas
                 int hanyszorMagas = VerNyomas.HanyszorMagas(sisztList, diasztList, eletkor);
                 Console.WriteLine($"\nMagas vérnyomás előfordulása: {hanyszorMagas} alkalom");
                 File.AppendAllText(fajlnev, $"\nMagas vérnyomás előfordulása: {hanyszorMagas} alkalom\n");
+
                 return "\nAz adatok sikeresen rögzítve!";
             }
             else
@@ -367,22 +368,6 @@ namespace Vernyomas
         /// Visszatérés: rövid, emberi olvasható szöveg a max/min eredményekkel.
         /// </summary>
         public static string MaxMin(List<int> sisztList, List<int> diasztList)
-        {
-            if (sisztList == null || diasztList == null)
-                return "Nincsenek mérési adatok.";
-
-            if (sisztList.Count == 0 || diasztList.Count == 0)
-                return "Nincsenek mérési adatok.";
-
-            int maxSziszt = sisztList.Max();
-            int minSziszt = sisztList.Min();
-            int maxDiaszt = diasztList.Max();
-            int minDiaszt = diasztList.Min();
-
-            return $"Szisztolés — Max: {maxSziszt} mmHg, Min: {minSziszt} mmHg\nDiasztolés — Max: {maxDiaszt} mmHg, Min: {minDiaszt} mmHg";
-        }
-
-        public static string HanyszorMagas(List<int> sisztList, List<int> diasztList)
         {
             if (sisztList == null || diasztList == null)
                 return "Nincsenek mérési adatok.";
