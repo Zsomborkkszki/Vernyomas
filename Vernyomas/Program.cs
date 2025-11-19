@@ -225,6 +225,10 @@ namespace Vernyomas
                 Console.WriteLine(maxMinResult);
                 File.AppendAllText(fajlnev, $"\n{maxMinResult}\n");
 
+
+                int hanyszorMagas = VerNyomas.HanyszorMagas(sisztList, diasztList, eletkor);
+                Console.WriteLine($"\nMagas vérnyomás előfordulása: {hanyszorMagas} alkalom");
+                File.AppendAllText(fajlnev, $"\nMagas vérnyomás előfordulása: {hanyszorMagas} alkalom\n");
                 return "\nAz adatok sikeresen rögzítve!";
             }
             else
