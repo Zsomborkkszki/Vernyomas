@@ -238,7 +238,25 @@ namespace Vernyomas
 
         public string Ertekeles()
         {
-            if(Eletkor==25){ 
+            if (Eletkor >= 1 && Eletkor <= 12)
+            {
+                if (Szisztoles >= 90 && Szisztoles <= 110 && Diasztoles >= 55 && Diasztoles <= 75)
+                    return "Normális";
+                else if (Szisztoles >= 111 && Szisztoles <= 119 && Diasztoles < 80)
+                    return "Emelkedett";
+                else if ((Szisztoles >= 120 && Szisztoles <= 129) || (Diasztoles >= 76 && Diasztoles <= 79))
+                    return "Magas vérnyomás (1. fok)";
+                else if ((Szisztoles >= 130 && Szisztoles <= 160) || (Diasztoles >= 80 && Diasztoles <= 100))
+                    return "Magas vérnyomás (2. fok)";
+                else if (Szisztoles > 160 || Diasztoles > 100)
+                    return "Válságos (keressen orvost)";
+                else
+                    return "Ismeretlen érték";
+            }
+
+            // ===== 12–18 év =====
+            else if (Eletkor > 12 && Eletkor <= 18)
+            {
                 if (Szisztoles < 120 && Diasztoles < 80)
                     return "Normális";
                 else if (Szisztoles >= 120 && Szisztoles <= 129 && Diasztoles < 80)
@@ -246,6 +264,74 @@ namespace Vernyomas
                 else if ((Szisztoles >= 130 && Szisztoles <= 139) || (Diasztoles >= 80 && Diasztoles <= 89))
                     return "Magas vérnyomás (1. fok)";
                 else if ((Szisztoles >= 140 && Szisztoles <= 180) || (Diasztoles >= 90 && Diasztoles <= 120))
+                    return "Magas vérnyomás (2. fok)";
+                else if (Szisztoles > 180 || Diasztoles > 120)
+                    return "Válságos (keressen orvost)";
+                else
+                    return "Ismeretlen érték";
+            }
+
+            // ===== 18–25 év =====
+            else if (Eletkor > 18 && Eletkor <= 25)
+            {
+                if (Szisztoles < 120 && Diasztoles < 80)
+                    return "Normális";
+                else if (Szisztoles >= 120 && Szisztoles <= 129 && Diasztoles < 80)
+                    return "Emelkedett";
+                else if ((Szisztoles >= 130 && Szisztoles <= 139) || (Diasztoles >= 80 && Diasztoles <= 89))
+                    return "Magas vérnyomás (1. fok)";
+                else if ((Szisztoles >= 140 && Szisztoles <= 180) || (Diasztoles >= 90 && Diasztoles <= 120))
+                    return "Magas vérnyomás (2. fok)";
+                else if (Szisztoles > 180 || Diasztoles > 120)
+                    return "Válságos (keressen orvost)";
+                else
+                    return "Ismeretlen érték";
+            }
+
+            // ===== 25–40 év =====
+            else if (Eletkor > 25 && Eletkor <= 40)
+            {
+                if (Szisztoles < 120 && Diasztoles < 80)
+                    return "Normális";
+                else if (Szisztoles >= 120 && Szisztoles <= 129 && Diasztoles < 80)
+                    return "Emelkedett";
+                else if ((Szisztoles >= 130 && Szisztoles <= 139) || (Diasztoles >= 80 && Diasztoles <= 89))
+                    return "Magas vérnyomás (1. fok)";
+                else if ((Szisztoles >= 140 && Szisztoles <= 180) || (Diasztoles >= 90 && Diasztoles <= 120))
+                    return "Magas vérnyomás (2. fok)";
+                else if (Szisztoles > 180 || Diasztoles > 120)
+                    return "Válságos (keressen orvost)";
+                else
+                    return "Ismeretlen érték";
+            }
+
+            // ===== 40–60 év =====
+            else if (Eletkor > 40 && Eletkor <= 60)
+            {
+                if (Szisztoles < 120 && Diasztoles < 80)
+                    return "Normális";
+                else if (Szisztoles >= 120 && Szisztoles <= 129 && Diasztoles < 80)
+                    return "Emelkedett";
+                else if ((Szisztoles >= 130 && Szisztoles <= 139) || (Diasztoles >= 80 && Diasztoles <= 89))
+                    return "Magas vérnyomás (1. fok)";
+                else if ((Szisztoles >= 140 && Szisztoles <= 180) || (Diasztoles >= 90 && Diasztoles <= 120))
+                    return "Magas vérnyomás (2. fok)";
+                else if (Szisztoles > 180 || Diasztoles > 120)
+                    return "Válságos (keressen orvost)";
+                else
+                    return "Ismeretlen érték";
+            }
+
+            // ===== 60+ év =====
+            else if (Eletkor > 60)
+            {
+                if (Szisztoles >= 120 && Szisztoles <= 130 && Diasztoles < 80)
+                    return "Normális";
+                else if (Szisztoles >= 130 && Szisztoles <= 139 && Diasztoles < 80)
+                    return "Emelkedett";
+                else if ((Szisztoles >= 140 && Szisztoles <= 149) || (Diasztoles >= 80 && Diasztoles <= 89))
+                    return "Magas vérnyomás (1. fok)";
+                else if ((Szisztoles >= 150 && Szisztoles <= 180) || (Diasztoles >= 90 && Diasztoles <= 120))
                     return "Magas vérnyomás (2. fok)";
                 else if (Szisztoles > 180 || Diasztoles > 120)
                     return "Válságos (keressen orvost)";
