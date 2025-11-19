@@ -1,5 +1,7 @@
 ﻿using System;
 using System.IO;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Vernyomas
 {
@@ -12,8 +14,8 @@ namespace Vernyomas
         /// <summary>
         /// Menü kezelő funkció, amely lehetővé teszi a felhasználó számára a regisztrációt, bejelentkezést vagy kilépést.
         /// </summary>
-        
-        
+
+
         static void Menü()
         {
             string[] menuReszek = { "Regisztáció", "Bejelentkezés", "Kilépés" };
@@ -165,6 +167,10 @@ namespace Vernyomas
                 double osszSziszt = 0;
                 double osszDiaszt = 0;
 
+                
+                var sisztList = new List<int>();
+                var diasztList = new List<int>();
+
                 for (int i = 1; i <= 5; i++)
                 {
                     Console.WriteLine($"\n--- {i}. mérés ---");
@@ -172,6 +178,10 @@ namespace Vernyomas
                     int sziszt = int.Parse(Console.ReadLine());
                     Console.Write("Diasztolés érték (alsó): ");
                     int diaszt = int.Parse(Console.ReadLine());
+
+                    
+                    sisztList.Add(sziszt);
+                    diasztList.Add(diaszt);
 
                     VerNyomas vernyomas = new VerNyomas(sziszt, diaszt, eletkor);
                     string ertekeles = vernyomas.Ertekeles();
@@ -208,6 +218,12 @@ namespace Vernyomas
                 Console.ResetColor();
 
                 File.AppendAllText(fajlnev, $"\nÁtlag: {atlagSziszt:F0}/{atlagDiaszt:F0}, {atlagErtekeles}\n");
+
+                
+                string maxMinResult = VerNyomas.MaxMin(sisztList, diasztList);
+                Console.WriteLine("\n--- Maximum és minimum ---");
+                Console.WriteLine(maxMinResult);
+                File.AppendAllText(fajlnev, $"\n{maxMinResult}\n");
 
                 return "\nAz adatok sikeresen rögzítve!";
             }
@@ -340,5 +356,28 @@ namespace Vernyomas
             }
             return "teszt";
         }
+
+        /// <summary>
+        /// Meghatározza a mért értékek maximumát és minimumát.
+        /// Bemenet: listák az 5 mérés szisztolés és diasztolés értékeivel.
+        /// Visszatérés: rövid, emberi olvasható szöveg a max/min eredményekkel.
+        /// </summary>
+        public static string MaxMin(List<int> sisztList, List<int> diasztList)
+        {
+            if (sisztList == null || diasztList == null)
+                return "Nincsenek mérési adatok.";
+
+            if (sisztList.Count == 0 || diasztList.Count == 0)
+                return "Nincsenek mérési adatok.";
+
+            int maxSziszt = sisztList.Max();
+            int minSziszt = sisztList.Min();
+            int maxDiaszt = diasztList.Max();
+            int minDiaszt = diasztList.Min();
+
+            return $"Szisztolés — Max: {maxSziszt} mmHg, Min: {minSziszt} mmHg\nDiasztolés — Max: {maxDiaszt} mmHg, Min: {minDiaszt} mmHg";
+        }
+
+
     }
 }
