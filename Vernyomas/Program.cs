@@ -382,6 +382,12 @@ namespace Vernyomas
 
             return $"Szisztolés — Max: {maxSziszt} mmHg, Min: {minSziszt} mmHg\nDiasztolés — Max: {maxDiaszt} mmHg, Min: {minDiaszt} mmHg";
         }
+
+        /// <summary>
+        /// Meghatározza a mért értékek alapján, hogy hányszor mért magas vérnyomást.
+        /// Bemenet: listák az 5 mérés szisztolés és diasztolés értékeivel és a megadott életkor.
+        /// Visszatérés: Azoknak a méréseknek a száma, amelyek magas vagy válságos vérnyomást jeleznek.
+        /// </summary>
         public static int HanyszorMagas(List<int> sisztList, List<int> diasztList, int eletkor)
         {
             int hanyszor = 0;
