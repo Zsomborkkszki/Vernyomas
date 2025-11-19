@@ -378,6 +378,38 @@ namespace Vernyomas
             return $"Szisztolés — Max: {maxSziszt} mmHg, Min: {minSziszt} mmHg\nDiasztolés — Max: {maxDiaszt} mmHg, Min: {minDiaszt} mmHg";
         }
 
+        public static string HanyszorMagas(List<int> sisztList, List<int> diasztList)
+        {
+            if (sisztList == null || diasztList == null)
+                return "Nincsenek mérési adatok.";
 
+            if (sisztList.Count == 0 || diasztList.Count == 0)
+                return "Nincsenek mérési adatok.";
+
+            int maxSziszt = sisztList.Max();
+            int minSziszt = sisztList.Min();
+            int maxDiaszt = diasztList.Max();
+            int minDiaszt = diasztList.Min();
+
+            return $"Szisztolés — Max: {maxSziszt} mmHg, Min: {minSziszt} mmHg\nDiasztolés — Max: {maxDiaszt} mmHg, Min: {minDiaszt} mmHg";
+        }
+        public static int HanyszorMagas(List<int> sisztList, List<int> diasztList, int eletkor)
+        {
+            int hanyszor = 0;
+            for (int i = 0; i < sisztList.Count; i++)
+            {
+                int sziszt = sisztList[i];
+                int diaszt = diasztList[i];
+
+                VerNyomas vernyomas = new VerNyomas(sziszt, diaszt, eletkor);
+
+                string ertekeles = vernyomas.Ertekeles();
+                if (ertekeles.Contains("Magas") || ertekeles.Contains("Válságos"))
+                {
+                    hanyszor++;
+                }
+            }
+            return hanyszor;
+        }
     }
 }
