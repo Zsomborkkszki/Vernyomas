@@ -259,6 +259,7 @@ namespace Vernyomas
 
         public string Ertekeles()
         {
+            // ===== 1–12 év =====
             if (Eletkor >= 1 && Eletkor <= 12)
             {
                 if (Szisztoles >= 90 && Szisztoles <= 110 && Diasztoles >= 55 && Diasztoles <= 75)
@@ -278,9 +279,9 @@ namespace Vernyomas
             // ===== 12–18 év =====
             else if (Eletkor > 12 && Eletkor <= 18)
             {
-                if (Szisztoles < 120 && Diasztoles < 80)
+                if (Szisztoles >= 100 && Szisztoles <= 119 && Diasztoles >= 60 && Diasztoles <= 69)
                     return "Normális";
-                else if (Szisztoles >= 120 && Szisztoles <= 129 && Diasztoles < 80)
+                else if (Szisztoles >= 120 && Szisztoles <= 129 && Diasztoles >= 70 && Diasztoles <= 79)
                     return "Emelkedett";
                 else if ((Szisztoles >= 130 && Szisztoles <= 139) || (Diasztoles >= 80 && Diasztoles <= 89))
                     return "Magas vérnyomás (1. fok)";
@@ -295,9 +296,9 @@ namespace Vernyomas
             // ===== 18–25 év =====
             else if (Eletkor > 18 && Eletkor <= 25)
             {
-                if (Szisztoles < 120 && Diasztoles < 80)
+                if (Szisztoles >= 100 && Szisztoles <= 119 && Diasztoles >= 60 && Diasztoles <= 69)
                     return "Normális";
-                else if (Szisztoles >= 120 && Szisztoles <= 129 && Diasztoles < 80)
+                else if (Szisztoles >= 120 && Szisztoles <= 129 && Diasztoles >= 70 && Diasztoles <= 79)
                     return "Emelkedett";
                 else if ((Szisztoles >= 130 && Szisztoles <= 139) || (Diasztoles >= 80 && Diasztoles <= 89))
                     return "Magas vérnyomás (1. fok)";
@@ -312,9 +313,9 @@ namespace Vernyomas
             // ===== 25–40 év =====
             else if (Eletkor > 25 && Eletkor <= 40)
             {
-                if (Szisztoles < 120 && Diasztoles < 80)
+                if (Szisztoles >= 100 && Szisztoles <= 119 && Diasztoles >= 60 && Diasztoles <= 69)
                     return "Normális";
-                else if (Szisztoles >= 120 && Szisztoles <= 129 && Diasztoles < 80)
+                else if (Szisztoles >= 120 && Szisztoles <= 129 && Diasztoles >= 70 && Diasztoles <= 79)
                     return "Emelkedett";
                 else if ((Szisztoles >= 130 && Szisztoles <= 139) || (Diasztoles >= 80 && Diasztoles <= 89))
                     return "Magas vérnyomás (1. fok)";
@@ -329,9 +330,9 @@ namespace Vernyomas
             // ===== 40–60 év =====
             else if (Eletkor > 40 && Eletkor <= 60)
             {
-                if (Szisztoles < 120 && Diasztoles < 80)
+                if (Szisztoles >= 100 && Szisztoles <= 119 && Diasztoles >= 60 && Diasztoles <= 69)
                     return "Normális";
-                else if (Szisztoles >= 120 && Szisztoles <= 129 && Diasztoles < 80)
+                else if (Szisztoles >= 120 && Szisztoles <= 129 && Diasztoles >= 70 && Diasztoles <= 79)
                     return "Emelkedett";
                 else if ((Szisztoles >= 130 && Szisztoles <= 139) || (Diasztoles >= 80 && Diasztoles <= 89))
                     return "Magas vérnyomás (1. fok)";
@@ -346,9 +347,9 @@ namespace Vernyomas
             // ===== 60+ év =====
             else if (Eletkor > 60)
             {
-                if (Szisztoles >= 120 && Szisztoles <= 130 && Diasztoles < 80)
+                if (Szisztoles >= 110 && Szisztoles <= 129 && Diasztoles >= 60 && Diasztoles <= 69)
                     return "Normális";
-                else if (Szisztoles >= 130 && Szisztoles <= 139 && Diasztoles < 80)
+                else if (Szisztoles >= 130 && Szisztoles <= 139 && Diasztoles >= 70 && Diasztoles <= 79)
                     return "Emelkedett";
                 else if ((Szisztoles >= 140 && Szisztoles <= 149) || (Diasztoles >= 80 && Diasztoles <= 89))
                     return "Magas vérnyomás (1. fok)";
