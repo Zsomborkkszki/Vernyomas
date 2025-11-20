@@ -187,7 +187,7 @@ namespace Vernyomas
                     string ertekeles = vernyomas.Ertekeles();
 
                     // Szín a kockázati szinthez
-                    if (ertekeles.Contains("Magas") || ertekeles.Contains("Válságos"))
+                    if (ertekeles.Contains("Magas") || ertekeles.Contains("Válságos") || ertekeles.Contains("Ismeretlen érték"))
                         Console.ForegroundColor = ConsoleColor.Red;
                     else
                         Console.ForegroundColor = ConsoleColor.Green;
@@ -225,7 +225,7 @@ namespace Vernyomas
                 Console.WriteLine(maxMinResult);
                 File.AppendAllText(fajlnev, $"\n{maxMinResult}\n");
 
-
+                Console.WriteLine("\n--- Magas vérnyomások előfordulása---");
                 int hanyszorMagas = VerNyomas.HanyszorMagas(sisztList, diasztList, eletkor);
                 Console.WriteLine($"\nMagas vérnyomás előfordulása: {hanyszorMagas} alkalom");
                 File.AppendAllText(fajlnev, $"\nMagas vérnyomás előfordulása: {hanyszorMagas} alkalom\n");
