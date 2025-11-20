@@ -407,5 +407,22 @@ namespace Vernyomas
             }
             return hanyszor;
         }
+        public static int Kor(string datum)
+        {
+            var darabolas = datum.Split('-');
+            int ev = int.Parse(darabolas[0]);
+            int honap = int.Parse(darabolas[1]);
+            int nap = int.Parse(darabolas[2]);
+
+            int age = DateTime.Now.Year - ev;
+
+            if (DateTime.Now.Month < honap || (DateTime.Now.Month == honap && DateTime.Now.Day < nap))
+            {
+                age--;
+            }
+
+            return age;
+        }
+        
     }
 }
