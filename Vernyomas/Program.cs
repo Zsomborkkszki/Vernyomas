@@ -2,6 +2,7 @@
 using System.IO;
 using System.Collections.Generic;
 using System.Linq;
+using System.Globalization;
 
 namespace Vernyomas
 {
@@ -136,9 +137,19 @@ namespace Vernyomas
             Console.WriteLine("Születési dátum (ÉÉÉÉ-HH-NN): ");
             string datum = Console.ReadLine();
 
-            File.WriteAllText($"{reg_nev}.txt", $"Név: {reg_nev}\nDátum: {datum}");
-            Console.Clear();
-            return "Sikeres regisztráció!";
+            DateTime dt;
+            if (DateTime.TryParseExact(datum, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out dt))
+            {
+                File.WriteAllText($"{reg_nev}.txt", $"Név: {reg_nev}\nDátum: {datum}");
+                Console.Clear();
+                return "Sikeres regisztráció!";
+            }
+            else
+            {
+                return("Helytelen formátum! Próbálja újra!");
+            }
+
+            
         }
         /// <summary>
         /// Bejelentkezés funkció, amely ellenőrzi a felhasználó létezését, majd lehetővé teszi vérnyomásmérések rögzítését és értékelését.
