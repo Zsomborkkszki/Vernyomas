@@ -131,24 +131,24 @@ namespace Vernyomas
         // --- Regisztráció ---
         static string Regisztracio()
         {
+            string datum = "";
+            string reg_nev = "";
+            DateTime dt;
             Console.Clear();
             Console.WriteLine("Név: ");
-            string reg_nev = Console.ReadLine();
-            Console.WriteLine("Születési dátum (ÉÉÉÉ-HH-NN): ");
-            string datum = Console.ReadLine();
-            //ide kell egy while ciklus
-            DateTime dt;
-            if (DateTime.TryParseExact(datum, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out dt))
+            reg_nev = Console.ReadLine();
+
+            do
             {
+                Console.WriteLine("Születési dátum (ÉÉÉÉ-HH-NN): ");
+                datum = Console.ReadLine();
+                Console.WriteLine("Helytelen próbáld újra");
+            }
+            while (!DateTime.TryParseExact(datum, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out dt)); 
+            
                 File.WriteAllText($"{reg_nev}.txt", $"Név: {reg_nev}\nDátum: {datum}");
                 Console.Clear();
                 return "Sikeres regisztráció!";
-            }
-            else
-            {
-                return("Helytelen formátum! Próbálja újra!");
-            }
-
             
         }
         /// <summary>
