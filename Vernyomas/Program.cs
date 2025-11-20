@@ -136,7 +136,7 @@ namespace Vernyomas
             string reg_nev = Console.ReadLine();
             Console.WriteLine("Születési dátum (ÉÉÉÉ-HH-NN): ");
             string datum = Console.ReadLine();
-
+            //ide kell egy while ciklus
             DateTime dt;
             if (DateTime.TryParseExact(datum, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out dt))
             {
@@ -172,9 +172,10 @@ namespace Vernyomas
                 Console.Clear();
                 string tartalom = File.ReadAllText(fajlnev);
                 Console.WriteLine($"Felhasználói adatok:\n{tartalom}");
+                //Ezt ki kell szedni majd
                 Console.WriteLine("\nKérem, adja meg az életkorát: ");
                 int eletkor = int.Parse(Console.ReadLine());
-
+                //eddig
                 double osszSziszt = 0;
                 double osszDiaszt = 0;
 
