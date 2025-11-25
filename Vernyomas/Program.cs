@@ -147,7 +147,8 @@ namespace Vernyomas
             while (!DateTime.TryParseExact(datum, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out dt)); 
             
                 File.WriteAllText($"{reg_nev}.txt", $"Név: {reg_nev}\nDátum: {datum}");
-                Console.Clear();
+                File.AppendAllText("User.txt", $"{reg_nev}\n");
+            Console.Clear();
                 return "Sikeres regisztráció!";
             
         }
@@ -182,8 +183,9 @@ namespace Vernyomas
                 
                 var sisztList = new List<int>();
                 var diasztList = new List<int>();
-
-                for (int i = 1; i <= 5; i++)
+                Console.WriteLine("Mennyi Adatot szeretne rögzíteni?");
+                int adatSzam = int.Parse(Console.ReadLine());
+                for (int i = 1; i <= adatSzam; i++)
                 {
                     Console.WriteLine($"\n--- {i}. mérés ---");
                     Console.Write("Szisztolés érték (felső): ");
@@ -242,6 +244,13 @@ namespace Vernyomas
                 Console.WriteLine($"\nMagas vérnyomás előfordulása: {hanyszorMagas} alkalom");
                 File.AppendAllText(fajlnev, $"\nMagas vérnyomás előfordulása: {hanyszorMagas} alkalom\n");
 
+                Console.WriteLine($"\nMagas vérnyomás előfordulása: {hanyszorMagas} alkalom");
+
+                string osszesitett = OsszesitettAtlag(atlagSziszt, atlagDiaszt);
+                Console.WriteLine(osszesitett);
+                File.AppendAllText(fajlnev, $"\n{osszesitett}\n");
+
+
                 return "\nAz adatok sikeresen rögzítve!";
             }
             else
@@ -249,6 +258,59 @@ namespace Vernyomas
                 return "Nincs ilyen felhasználó!";
             }
         }
+
+        static string OsszesitettAtlag(double felhAtlagSziszt, double felhAtlagDiaszt)
+        {
+            if (!File.Exists("User.txt"))
+                return "Nincs User.txt, nem lehet összesített átlagot számolni!";
+
+            string[] userNevek = File.ReadAllLines("User.txt");
+
+            double osszSziszt = 0;
+            double osszDiaszt = 0;
+            int felhasznaloSzam = 0;
+
+            foreach (var nev in userNevek)
+            {
+                string fajl = $"{nev}.txt";
+                if (!File.Exists(fajl)) continue;
+
+                var sorok = File.ReadAllLines(fajl);
+
+                // Megkeressük az "Átlag:" sor utolsó előfordulását
+                string atlagSor = sorok.LastOrDefault(s => s.StartsWith("Átlag:"));
+                if (atlagSor == null) continue;
+
+                // Példa sor: "Átlag: 120/80, Normális"
+                var darabolt = atlagSor.Split(' ', ',', '/', ':');
+
+                // darabolt = ["Átlag", "", "120", "80", ...]
+                if (darabolt.Length < 4) continue;
+
+                if (int.TryParse(darabolt[2], out int sziszt) &&
+                    int.TryParse(darabolt[3], out int diaszt))
+                {
+                    osszSziszt += sziszt;
+                    osszDiaszt += diaszt;
+                    felhasznaloSzam++;
+                }
+            }
+
+            if (felhasznaloSzam == 0)
+                return "Nincs elég adat más felhasználóktól!";
+
+            double osszesitettSziszt = osszSziszt / felhasznaloSzam;
+            double osszesitettDiaszt = osszDiaszt / felhasznaloSzam;
+
+            // Százalékos eltérés a bejelentkezett felhasználó átlagától
+            double szisztElteres = ((osszesitettSziszt - felhAtlagSziszt) / felhAtlagSziszt) * 100.0;
+            double diasztElteres = ((osszesitettDiaszt - felhAtlagDiaszt) / felhAtlagDiaszt) * 100.0;
+
+            return $"\n--- Összesített átlag más felhasználókból ---\n" +
+                   $"Szisztolés: {osszesitettSziszt:F1} mmHg ({szisztElteres:F1}% eltérés)\n" +
+                   $"Diasztolés: {osszesitettDiaszt:F1} mmHg ({diasztElteres:F1}% eltérés)";
+        }
+
     }
 
     // --- Vérnyomás osztály ---
