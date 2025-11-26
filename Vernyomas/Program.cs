@@ -173,10 +173,6 @@ namespace Vernyomas
                 Console.Clear();
                 string tartalom = File.ReadAllText(fajlnev);
                 Console.WriteLine($"Felhasználói adatok:\n{tartalom}");
-                //Ezt ki kell szedni majd
-                Console.WriteLine("\nKérem, adja meg az életkorát: ");
-                int eletkor = int.Parse(Console.ReadLine());
-                //eddig
                 double osszSziszt = 0;
                 double osszDiaszt = 0;
 
@@ -197,7 +193,9 @@ namespace Vernyomas
                     sisztList.Add(sziszt);
                     diasztList.Add(diaszt);
 
-                    VerNyomas vernyomas = new VerNyomas(sziszt, diaszt, eletkor);
+                    string datum = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+
+                    VerNyomas vernyomas = new VerNyomas(sziszt, diaszt, datum);
                     string ertekeles = vernyomas.Ertekeles();
 
                     // Szín a kockázati szinthez
@@ -209,7 +207,6 @@ namespace Vernyomas
                     Console.WriteLine($"Vérnyomás: {sziszt}/{diaszt} mmHg — {ertekeles}");
                     Console.ResetColor();
 
-                    string datum = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                     File.AppendAllText(fajlnev, $"\n{datum} — {sziszt}/{diaszt}, {ertekeles}");
 
                     osszSziszt += sziszt;
@@ -219,7 +216,7 @@ namespace Vernyomas
                 double atlagSziszt = osszSziszt / 5;
                 double atlagDiaszt = osszDiaszt / 5;
 
-                VerNyomas atlagVernyomas = new VerNyomas((int)atlagSziszt, (int)atlagDiaszt, eletkor);
+                VerNyomas atlagVernyomas = new VerNyomas((int)atlagSziszt, (int)atlagDiaszt, datum);
                 string atlagErtekeles = atlagVernyomas.Ertekeles();
 
                 Console.WriteLine("\n--- Átlagolt érték ---");
@@ -322,19 +319,21 @@ namespace Vernyomas
         public int Szisztoles;
         public int Diasztoles;
         public int Eletkor;
+        public string Datum;
 
         // Konstruktor
-        public VerNyomas(int sziszt, int diaszt, int eletkor)
+        public VerNyomas(int sziszt, int diaszt, string datum)
         {
             Szisztoles = sziszt;
             Diasztoles = diaszt;
-            Eletkor = eletkor;
+            Datum = datum;
         }
 
         public string Ertekeles()
         {
+            int kor = Kor(Datum);
             // ===== 1–12 év =====
-            if (Eletkor >= 1 && Eletkor <= 12)
+            if (kor >= 1 && kor <= 12)
             {
                 if (Szisztoles >= 90 && Szisztoles <= 110 && Diasztoles >= 55 && Diasztoles <= 75)
                     return "Normális";
@@ -351,7 +350,7 @@ namespace Vernyomas
             }
 
             // ===== 12–18 év =====
-            else if (Eletkor > 12 && Eletkor <= 18)
+            else if (kor > 12 && kor <= 18)
             {
                 if (Szisztoles >= 100 && Szisztoles <= 119 && Diasztoles >= 60 && Diasztoles <= 69)
                     return "Normális";
@@ -368,7 +367,7 @@ namespace Vernyomas
             }
 
             // ===== 18–25 év =====
-            else if (Eletkor > 18 && Eletkor <= 25)
+            else if (kor > 18 && kor <= 25)
             {
                 if (Szisztoles >= 100 && Szisztoles <= 119 && Diasztoles >= 60 && Diasztoles <= 69)
                     return "Normális";
@@ -385,7 +384,7 @@ namespace Vernyomas
             }
 
             // ===== 25–40 év =====
-            else if (Eletkor > 25 && Eletkor <= 40)
+            else if (kor > 25 && kor <= 40)
             {
                 if (Szisztoles >= 100 && Szisztoles <= 119 && Diasztoles >= 60 && Diasztoles <= 69)
                     return "Normális";
@@ -402,7 +401,7 @@ namespace Vernyomas
             }
 
             // ===== 40–60 év =====
-            else if (Eletkor > 40 && Eletkor <= 60)
+            else if (kor > 40 && kor <= 60)
             {
                 if (Szisztoles >= 100 && Szisztoles <= 119 && Diasztoles >= 60 && Diasztoles <= 69)
                     return "Normális";
@@ -419,7 +418,7 @@ namespace Vernyomas
             }
 
             // ===== 60+ év =====
-            else if (Eletkor > 60)
+            else if (kor > 60)
             {
                 if (Szisztoles >= 110 && Szisztoles <= 129 && Diasztoles >= 60 && Diasztoles <= 69)
                     return "Normális";
@@ -463,7 +462,7 @@ namespace Vernyomas
         /// Bemenet: listák az 5 mérés szisztolés és diasztolés értékeivel és a megadott életkor.
         /// Visszatérés: Azoknak a méréseknek a száma, amelyek magas vagy válságos vérnyomást jeleznek.
         /// </summary>
-        public static int HanyszorMagas(List<int> sisztList, List<int> diasztList, int eletkor)
+        public static int HanyszorMagas(List<int> sisztList, List<int> diasztList, string datum)
         {
             int hanyszor = 0;
             for (int i = 0; i < sisztList.Count; i++)
@@ -471,7 +470,7 @@ namespace Vernyomas
                 int sziszt = sisztList[i];
                 int diaszt = diasztList[i];
 
-                VerNyomas vernyomas = new VerNyomas(sziszt, diaszt, eletkor);
+                VerNyomas vernyomas = new VerNyomas(sziszt, diaszt, datum);
 
                 string ertekeles = vernyomas.Ertekeles();
                 if (ertekeles.Contains("Magas") || ertekeles.Contains("Válságos"))
@@ -488,14 +487,14 @@ namespace Vernyomas
             int honap = int.Parse(darabolas[1]);
             int nap = int.Parse(darabolas[2]);
 
-            int age = DateTime.Now.Year - ev;
+            int kor = DateTime.Now.Year - ev;
 
             if (DateTime.Now.Month < honap || (DateTime.Now.Month == honap && DateTime.Now.Day < nap))
             {
-                age--;
+                kor--;
             }
 
-            return age;
+            return kor;
         }
         
     }
