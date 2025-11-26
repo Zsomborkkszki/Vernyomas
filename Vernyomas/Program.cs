@@ -335,7 +335,9 @@ namespace Vernyomas
             // ===== 1–12 év =====
             if (kor >= 1 && kor <= 12)
             {
-                if (Szisztoles >= 90 && Szisztoles <= 110 && Diasztoles >= 55 && Diasztoles <= 75)
+                if (Szisztoles < 90 && Diasztoles < 55 )
+                    return "Alacsony";
+                else if (Szisztoles >= 90 && Szisztoles <= 110 && Diasztoles >= 55 && Diasztoles <= 75)
                     return "Normális";
                 else if (Szisztoles >= 111 && Szisztoles <= 119 && Diasztoles < 80)
                     return "Emelkedett";
@@ -352,7 +354,9 @@ namespace Vernyomas
             // ===== 12–18 év =====
             else if (kor > 12 && kor <= 18)
             {
-                if (Szisztoles >= 100 && Szisztoles <= 119 && Diasztoles >= 60 && Diasztoles <= 69)
+                if (Szisztoles < 100 && Diasztoles < 60)
+                    return "Alacsony";
+                else if(Szisztoles >= 100 && Szisztoles <= 119 && Diasztoles >= 60 && Diasztoles <= 69)
                     return "Normális";
                 else if (Szisztoles >= 120 && Szisztoles <= 129 && Diasztoles >= 70 && Diasztoles <= 79)
                     return "Emelkedett";
@@ -369,7 +373,9 @@ namespace Vernyomas
             // ===== 18–25 év =====
             else if (kor > 18 && kor <= 25)
             {
-                if (Szisztoles >= 100 && Szisztoles <= 119 && Diasztoles >= 60 && Diasztoles <= 69)
+                if (Szisztoles < 100 && Diasztoles < 60)
+                    return "Alacsony";
+                else if (Szisztoles >= 100 && Szisztoles <= 119 && Diasztoles >= 60 && Diasztoles <= 69)
                     return "Normális";
                 else if (Szisztoles >= 120 && Szisztoles <= 129 && Diasztoles >= 70 && Diasztoles <= 79)
                     return "Emelkedett";
@@ -386,7 +392,9 @@ namespace Vernyomas
             // ===== 25–40 év =====
             else if (kor > 25 && kor <= 40)
             {
-                if (Szisztoles >= 100 && Szisztoles <= 119 && Diasztoles >= 60 && Diasztoles <= 69)
+                if (Szisztoles < 100 && Diasztoles < 60)
+                    return "Alacsony";
+                else if (Szisztoles >= 100 && Szisztoles <= 119 && Diasztoles >= 60 && Diasztoles <= 69)
                     return "Normális";
                 else if (Szisztoles >= 120 && Szisztoles <= 129 && Diasztoles >= 70 && Diasztoles <= 79)
                     return "Emelkedett";
@@ -403,7 +411,9 @@ namespace Vernyomas
             // ===== 40–60 év =====
             else if (kor > 40 && kor <= 60)
             {
-                if (Szisztoles >= 100 && Szisztoles <= 119 && Diasztoles >= 60 && Diasztoles <= 69)
+                if (Szisztoles < 100 && Diasztoles < 60)
+                    return "Alacsony";
+                else if (Szisztoles >= 100 && Szisztoles <= 119 && Diasztoles >= 60 && Diasztoles <= 69)
                     return "Normális";
                 else if (Szisztoles >= 120 && Szisztoles <= 129 && Diasztoles >= 70 && Diasztoles <= 79)
                     return "Emelkedett";
@@ -420,7 +430,9 @@ namespace Vernyomas
             // ===== 60+ év =====
             else if (kor > 60)
             {
-                if (Szisztoles >= 110 && Szisztoles <= 129 && Diasztoles >= 60 && Diasztoles <= 69)
+                if (Szisztoles < 110 && Diasztoles < 60)
+                    return "Alacsony";
+                else if (Szisztoles >= 110 && Szisztoles <= 129 && Diasztoles >= 60 && Diasztoles <= 69)
                     return "Normális";
                 else if (Szisztoles >= 130 && Szisztoles <= 139 && Diasztoles >= 70 && Diasztoles <= 79)
                     return "Emelkedett";
