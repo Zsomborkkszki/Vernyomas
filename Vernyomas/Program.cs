@@ -134,7 +134,8 @@ namespace Vernyomas
                 datum = Console.ReadLine();
             }
             while (!DateTime.TryParseExact(datum, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out dt));
-
+            File.AppendAllText("Users.txt", $"{reg_nev}");
+            
             File.WriteAllText($"{reg_nev}.txt", $"Név: {reg_nev}\nDátum: {datum}");
             Console.Clear();
             return "Sikeres regisztráció!";
@@ -175,8 +176,9 @@ namespace Vernyomas
                 {
                     return "A felhasználói fájl nem tartalmaz érvényes születési dátumot (yyyy-MM-dd).";
                 }
-
-                for (int i = 1; i <= 5; i++)
+                Console.Write("Mennyi adatot szeretne megadni:");
+                int adatSzam = int.Parse(Console.ReadLine());
+                for (int i = 1; i <= adatSzam; i++)
                 {
                     Console.WriteLine($"\n--- {i}. mérés ---");
                     Console.Write("Szisztolés érték (felső): ");
@@ -250,10 +252,10 @@ namespace Vernyomas
 
         static string OsszesitettAtlag(double felhAtlagSziszt, double felhAtlagDiaszt)
         {
-            if (!File.Exists("User.txt"))
+            if (!File.Exists("Users.txt"))
                 return "Nincs User.txt, nem lehet összesített átlagot számolni!";
 
-            string[] userNevek = File.ReadAllLines("User.txt");
+            string[] userNevek = File.ReadAllLines("Users.txt");
 
             double osszSziszt = 0;
             double osszDiaszt = 0;
@@ -300,178 +302,179 @@ namespace Vernyomas
                    $"Diasztolés: {osszesitettDiaszt:F1} mmHg ({diasztElteres:F1}% eltérés)";
         }
 
-    class VerNyomas
-    {
-        public int Szisztoles;
-        public int Diasztoles;
-        public string Datum;
-
-        public VerNyomas(int sziszt, int diaszt, string datum)
+        class VerNyomas
         {
-            Szisztoles = sziszt;
-            Diasztoles = diaszt;
-            Datum = datum;
-        }
+            public int Szisztoles;
+            public int Diasztoles;
+            public string Datum;
 
-        public string Ertekeles()
-        {
-            int kor = Kor(Datum);
-
-            if (kor >= 1 && kor <= 12)
+            public VerNyomas(int sziszt, int diaszt, string datum)
             {
-                if (Szisztoles < 90 && Diasztoles < 55 )
-                    return "Alacsony";
-                else if (Szisztoles >= 90 && Szisztoles <= 110 && Diasztoles >= 55 && Diasztoles <= 75)
-                    return "Normális";
-                else if (Szisztoles >= 111 && Szisztoles <= 119 && Diasztoles < 80)
-                    return "Emelkedett";
-                else if ((Szisztoles >= 120 && Szisztoles <= 129) || (Diasztoles >= 76 && Diasztoles <= 79))
-                    return "Magas vérnyomás (1. fok)";
-                else if ((Szisztoles >= 130 && Szisztoles <= 160) || (Diasztoles >= 80 && Diasztoles <= 100))
-                    return "Magas vérnyomás (2. fok)";
-                else if (Szisztoles > 160 || Diasztoles > 100)
-                    return "Válságos (keressen orvost)";
-                else
-                    return "Ismeretlen érték";
+                Szisztoles = sziszt;
+                Diasztoles = diaszt;
+                Datum = datum;
             }
-            else if (kor > 12 && kor <= 18)
+
+            public string Ertekeles()
             {
-                if (Szisztoles < 100 && Diasztoles < 60)
-                    return "Alacsony";
-                else if(Szisztoles >= 100 && Szisztoles <= 119 && Diasztoles >= 60 && Diasztoles <= 69)
-                    return "Normális";
-                else if (Szisztoles >= 120 && Szisztoles <= 129 && Diasztoles >= 70 && Diasztoles <= 79)
-                    return "Emelkedett";
-                else if ((Szisztoles >= 130 && Szisztoles <= 139) || (Diasztoles >= 80 && Diasztoles <= 89))
-                    return "Magas vérnyomás (1. fok)";
-                else if ((Szisztoles >= 140 && Szisztoles <= 180) || (Diasztoles >= 90 && Diasztoles <= 120))
-                    return "Magas vérnyomás (2. fok)";
-                else if (Szisztoles > 180 || Diasztoles > 120)
-                    return "Válságos (keressen orvost)";
-                else
-                    return "Ismeretlen érték";
-            }
-            else if (kor > 18 && kor <= 25)
-            {
-                if (Szisztoles < 100 && Diasztoles < 60)
-                    return "Alacsony";
-                else if (Szisztoles >= 100 && Szisztoles <= 119 && Diasztoles >= 60 && Diasztoles <= 69)
-                    return "Normális";
-                else if (Szisztoles >= 120 && Szisztoles <= 129 && Diasztoles >= 70 && Diasztoles <= 79)
-                    return "Emelkedett";
-                else if ((Szisztoles >= 130 && Szisztoles <= 139) || (Diasztoles >= 80 && Diasztoles <= 89))
-                    return "Magas vérnyomás (1. fok)";
-                else if ((Szisztoles >= 140 && Szisztoles <= 180) || (Diasztoles >= 90 && Diasztoles <= 120))
-                    return "Magas vérnyomás (2. fok)";
-                else if (Szisztoles > 180 || Diasztoles > 120)
-                    return "Válságos (keressen orvost)";
-                else
-                    return "Ismeretlen érték";
-            }
-            else if (kor > 25 && kor <= 40)
-            {
-                if (Szisztoles < 100 && Diasztoles < 60)
-                    return "Alacsony";
-                else if (Szisztoles >= 100 && Szisztoles <= 119 && Diasztoles >= 60 && Diasztoles <= 69)
-                    return "Normális";
-                else if (Szisztoles >= 120 && Szisztoles <= 129 && Diasztoles >= 70 && Diasztoles <= 79)
-                    return "Emelkedett";
-                else if ((Szisztoles >= 130 && Szisztoles <= 139) || (Diasztoles >= 80 && Diasztoles <= 89))
-                    return "Magas vérnyomás (1. fok)";
-                else if ((Szisztoles >= 140 && Szisztoles <= 180) || (Diasztoles >= 90 && Diasztoles <= 120))
-                    return "Magas vérnyomás (2. fok)";
-                else if (Szisztoles > 180 || Diasztoles > 120)
-                    return "Válságos (keressen orvost)";
-                else
-                    return "Ismeretlen érték";
-            }
-            else if (kor > 40 && kor <= 60)
-            {
-                if (Szisztoles < 100 && Diasztoles < 60)
-                    return "Alacsony";
-                else if (Szisztoles >= 100 && Szisztoles <= 119 && Diasztoles >= 60 && Diasztoles <= 69)
-                    return "Normális";
-                else if (Szisztoles >= 120 && Szisztoles <= 129 && Diasztoles >= 70 && Diasztoles <= 79)
-                    return "Emelkedett";
-                else if ((Szisztoles >= 130 && Szisztoles <= 139) || (Diasztoles >= 80 && Diasztoles <= 89))
-                    return "Magas vérnyomás (1. fok)";
-                else if ((Szisztoles >= 140 && Szisztoles <= 180) || (Diasztoles >= 90 && Diasztoles <= 120))
-                    return "Magas vérnyomás (2. fok)";
-                else if (Szisztoles > 180 || Diasztoles > 120)
-                    return "Válságos (keressen orvost)";
-                else
-                    return "Ismeretlen érték";
-            }
-            else if (kor > 60)
-            {
-                if (Szisztoles < 110 && Diasztoles < 60)
-                    return "Alacsony";
-                else if (Szisztoles >= 110 && Szisztoles <= 129 && Diasztoles >= 60 && Diasztoles <= 69)
-                    return "Normális";
-                else if (Szisztoles >= 130 && Szisztoles <= 139 && Diasztoles >= 70 && Diasztoles <= 79)
-                    return "Emelkedett";
-                else if ((Szisztoles >= 140 && Szisztoles <= 149) || (Diasztoles >= 80 && Diasztoles <= 89))
-                    return "Magas vérnyomás (1. fok)";
-                else if ((Szisztoles >= 150 && Szisztoles <= 180) || (Diasztoles >= 90 && Diasztoles <= 120))
-                    return "Magas vérnyomás (2. fok)";
-                else if (Szisztoles > 180 || Diasztoles > 120)
-                    return "Válságos (keressen orvost)";
-                else
-                    return "Ismeretlen érték";
-            }
-            return "teszt";
-        }
+                int kor = Kor(Datum);
 
-        public static string MaxMin(List<int> sisztList, List<int> diasztList)
-        {
-            if (sisztList == null || diasztList == null)
-                return "Nincsenek mérési adatok.";
-
-            if (sisztList.Count == 0 || diasztList.Count == 0)
-                return "Nincsenek mérési adatok.";
-
-            int maxSziszt = sisztList.Max();
-            int minSziszt = sisztList.Min();
-            int maxDiaszt = diasztList.Max();
-            int minDiaszt = diasztList.Min();
-
-            return $"Szisztolés — Max: {maxSziszt} mmHg, Min: {minSziszt} mmHg\nDiasztolés — Max: {maxDiaszt} mmHg, Min: {minDiaszt} mmHg";
-        }
-
-        public static int HanyszorMagas(List<int> sisztList, List<int> diasztList, string szuletesiDatum)
-        {
-            int hanyszor = 0;
-            for (int i = 0; i < sisztList.Count; i++)
-            {
-                int sziszt = sisztList[i];
-                int diaszt = diasztList[i];
-
-                VerNyomas vernyomas = new VerNyomas(sziszt, diaszt, szuletesiDatum);
-
-                string ertekeles = vernyomas.Ertekeles();
-                if (ertekeles.Contains("Magas") || ertekeles.Contains("Válságos"))
+                if (kor >= 1 && kor <= 12)
                 {
-                    hanyszor++;
+                    if (Szisztoles < 90 && Diasztoles < 55)
+                        return "Alacsony";
+                    else if (Szisztoles >= 90 && Szisztoles <= 110 && Diasztoles >= 55 && Diasztoles <= 75)
+                        return "Normális";
+                    else if (Szisztoles >= 111 && Szisztoles <= 119 && Diasztoles < 80)
+                        return "Emelkedett";
+                    else if ((Szisztoles >= 120 && Szisztoles <= 129) || (Diasztoles >= 76 && Diasztoles <= 79))
+                        return "Magas vérnyomás (1. fok)";
+                    else if ((Szisztoles >= 130 && Szisztoles <= 160) || (Diasztoles >= 80 && Diasztoles <= 100))
+                        return "Magas vérnyomás (2. fok)";
+                    else if (Szisztoles > 160 || Diasztoles > 100)
+                        return "Válságos (keressen orvost)";
+                    else
+                        return "Ismeretlen érték";
                 }
+                else if (kor > 12 && kor <= 18)
+                {
+                    if (Szisztoles < 100 && Diasztoles < 60)
+                        return "Alacsony";
+                    else if (Szisztoles >= 100 && Szisztoles <= 119 && Diasztoles >= 60 && Diasztoles <= 69)
+                        return "Normális";
+                    else if (Szisztoles >= 120 && Szisztoles <= 129 && Diasztoles >= 70 && Diasztoles <= 79)
+                        return "Emelkedett";
+                    else if ((Szisztoles >= 130 && Szisztoles <= 139) || (Diasztoles >= 80 && Diasztoles <= 89))
+                        return "Magas vérnyomás (1. fok)";
+                    else if ((Szisztoles >= 140 && Szisztoles <= 180) || (Diasztoles >= 90 && Diasztoles <= 120))
+                        return "Magas vérnyomás (2. fok)";
+                    else if (Szisztoles > 180 || Diasztoles > 120)
+                        return "Válságos (keressen orvost)";
+                    else
+                        return "Ismeretlen érték";
+                }
+                else if (kor > 18 && kor <= 25)
+                {
+                    if (Szisztoles < 100 && Diasztoles < 60)
+                        return "Alacsony";
+                    else if (Szisztoles >= 100 && Szisztoles <= 119 && Diasztoles >= 60 && Diasztoles <= 69)
+                        return "Normális";
+                    else if (Szisztoles >= 120 && Szisztoles <= 129 && Diasztoles >= 70 && Diasztoles <= 79)
+                        return "Emelkedett";
+                    else if ((Szisztoles >= 130 && Szisztoles <= 139) || (Diasztoles >= 80 && Diasztoles <= 89))
+                        return "Magas vérnyomás (1. fok)";
+                    else if ((Szisztoles >= 140 && Szisztoles <= 180) || (Diasztoles >= 90 && Diasztoles <= 120))
+                        return "Magas vérnyomás (2. fok)";
+                    else if (Szisztoles > 180 || Diasztoles > 120)
+                        return "Válságos (keressen orvost)";
+                    else
+                        return "Ismeretlen érték";
+                }
+                else if (kor > 25 && kor <= 40)
+                {
+                    if (Szisztoles < 100 && Diasztoles < 60)
+                        return "Alacsony";
+                    else if (Szisztoles >= 100 && Szisztoles <= 119 && Diasztoles >= 60 && Diasztoles <= 69)
+                        return "Normális";
+                    else if (Szisztoles >= 120 && Szisztoles <= 129 && Diasztoles >= 70 && Diasztoles <= 79)
+                        return "Emelkedett";
+                    else if ((Szisztoles >= 130 && Szisztoles <= 139) || (Diasztoles >= 80 && Diasztoles <= 89))
+                        return "Magas vérnyomás (1. fok)";
+                    else if ((Szisztoles >= 140 && Szisztoles <= 180) || (Diasztoles >= 90 && Diasztoles <= 120))
+                        return "Magas vérnyomás (2. fok)";
+                    else if (Szisztoles > 180 || Diasztoles > 120)
+                        return "Válságos (keressen orvost)";
+                    else
+                        return "Ismeretlen érték";
+                }
+                else if (kor > 40 && kor <= 60)
+                {
+                    if (Szisztoles < 100 && Diasztoles < 60)
+                        return "Alacsony";
+                    else if (Szisztoles >= 100 && Szisztoles <= 119 && Diasztoles >= 60 && Diasztoles <= 69)
+                        return "Normális";
+                    else if (Szisztoles >= 120 && Szisztoles <= 129 && Diasztoles >= 70 && Diasztoles <= 79)
+                        return "Emelkedett";
+                    else if ((Szisztoles >= 130 && Szisztoles <= 139) || (Diasztoles >= 80 && Diasztoles <= 89))
+                        return "Magas vérnyomás (1. fok)";
+                    else if ((Szisztoles >= 140 && Szisztoles <= 180) || (Diasztoles >= 90 && Diasztoles <= 120))
+                        return "Magas vérnyomás (2. fok)";
+                    else if (Szisztoles > 180 || Diasztoles > 120)
+                        return "Válságos (keressen orvost)";
+                    else
+                        return "Ismeretlen érték";
+                }
+                else if (kor > 60)
+                {
+                    if (Szisztoles < 110 && Diasztoles < 60)
+                        return "Alacsony";
+                    else if (Szisztoles >= 110 && Szisztoles <= 129 && Diasztoles >= 60 && Diasztoles <= 69)
+                        return "Normális";
+                    else if (Szisztoles >= 130 && Szisztoles <= 139 && Diasztoles >= 70 && Diasztoles <= 79)
+                        return "Emelkedett";
+                    else if ((Szisztoles >= 140 && Szisztoles <= 149) || (Diasztoles >= 80 && Diasztoles <= 89))
+                        return "Magas vérnyomás (1. fok)";
+                    else if ((Szisztoles >= 150 && Szisztoles <= 180) || (Diasztoles >= 90 && Diasztoles <= 120))
+                        return "Magas vérnyomás (2. fok)";
+                    else if (Szisztoles > 180 || Diasztoles > 120)
+                        return "Válságos (keressen orvost)";
+                    else
+                        return "Ismeretlen érték";
+                }
+                return "teszt";
             }
-            return hanyszor;
-        }
 
-        public static int Kor(string datum)
-        {
-            var darabolas = datum.Split('-');
-            int ev = int.Parse(darabolas[0]);
-            int honap = int.Parse(darabolas[1]);
-            int nap = int.Parse(darabolas[2]);
-
-            int kor = DateTime.Now.Year - ev;
-
-            if (DateTime.Now.Month < honap || (DateTime.Now.Month == honap && DateTime.Now.Day < nap))
+            public static string MaxMin(List<int> sisztList, List<int> diasztList)
             {
-                kor--;
+                if (sisztList == null || diasztList == null)
+                    return "Nincsenek mérési adatok.";
+
+                if (sisztList.Count == 0 || diasztList.Count == 0)
+                    return "Nincsenek mérési adatok.";
+
+                int maxSziszt = sisztList.Max();
+                int minSziszt = sisztList.Min();
+                int maxDiaszt = diasztList.Max();
+                int minDiaszt = diasztList.Min();
+
+                return $"Szisztolés — Max: {maxSziszt} mmHg, Min: {minSziszt} mmHg\nDiasztolés — Max: {maxDiaszt} mmHg, Min: {minDiaszt} mmHg";
             }
 
-            return kor;
+            public static int HanyszorMagas(List<int> sisztList, List<int> diasztList, string szuletesiDatum)
+            {
+                int hanyszor = 0;
+                for (int i = 0; i < sisztList.Count; i++)
+                {
+                    int sziszt = sisztList[i];
+                    int diaszt = diasztList[i];
+
+                    VerNyomas vernyomas = new VerNyomas(sziszt, diaszt, szuletesiDatum);
+
+                    string ertekeles = vernyomas.Ertekeles();
+                    if (ertekeles.Contains("Magas") || ertekeles.Contains("Válságos"))
+                    {
+                        hanyszor++;
+                    }
+                }
+                return hanyszor;
+            }
+
+            public static int Kor(string datum)
+            {
+                var darabolas = datum.Split('-');
+                int ev = int.Parse(darabolas[0]);
+                int honap = int.Parse(darabolas[1]);
+                int nap = int.Parse(darabolas[2]);
+
+                int kor = DateTime.Now.Year - ev;
+
+                if (DateTime.Now.Month < honap || (DateTime.Now.Month == honap && DateTime.Now.Day < nap))
+                {
+                    kor--;
+                }
+
+                return kor;
+            }
         }
     }
 }
