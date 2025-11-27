@@ -12,10 +12,6 @@ namespace Vernyomas
         {
             Menü();
         }
-        /// <summary>
-        /// Menü kezelő funkció, amely lehetővé teszi a felhasználó számára a regisztrációt, bejelentkezést vagy kilépést.
-        /// </summary>
-
 
         static void Menü()
         {
@@ -65,7 +61,6 @@ namespace Vernyomas
                 Console.WriteLine("\nNyomj meg egy gombot a visszalépéshez...");
                 Console.ReadKey();
                 Menü();
-                Regisztracio();
             }
             else if (kivalasztott == 1)
             {
@@ -74,7 +69,6 @@ namespace Vernyomas
                 Console.WriteLine("\nNyomj meg egy gombot a visszalépéshez...");
                 Console.ReadKey();
                 Menü();
-                Bejelentkezes();
             }
             else if (kivalasztott == 2)
             {
@@ -124,11 +118,7 @@ namespace Vernyomas
                 }
             }
         }
-        /// <summary>
-        /// Regisztrációs funkció, amely létrehoz egy új felhasználói fájlt a megadott névvel és születési dátummal.
-        /// </summary>
-        /// <returns></returns>
-        // --- Regisztráció ---
+
         static string Regisztracio()
         {
             string datum = "";
@@ -142,20 +132,14 @@ namespace Vernyomas
             {
                 Console.WriteLine("Születési dátum (ÉÉÉÉ-HH-NN): ");
                 datum = Console.ReadLine();
-                Console.WriteLine("Helytelen próbáld újra");
             }
-            while (!DateTime.TryParseExact(datum, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out dt)); 
-            
-                File.WriteAllText($"{reg_nev}.txt", $"Név: {reg_nev}\nDátum: {datum}");
-                Console.Clear();
-                return "Sikeres regisztráció!";
-            
+            while (!DateTime.TryParseExact(datum, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out dt));
+
+            File.WriteAllText($"{reg_nev}.txt", $"Név: {reg_nev}\nDátum: {datum}");
+            Console.Clear();
+            return "Sikeres regisztráció!";
         }
-        /// <summary>
-        /// Bejelentkezés funkció, amely ellenőrzi a felhasználó létezését, majd lehetővé teszi vérnyomásmérések rögzítését és értékelését.
-        /// </summary>
-        /// <returns></returns>
-        // --- Bejelentkezés ---
+
         static string Bejelentkezes()
         {
             Console.Clear();
@@ -175,9 +159,22 @@ namespace Vernyomas
                 double osszSziszt = 0;
                 double osszDiaszt = 0;
 
-                
                 var sisztList = new List<int>();
                 var diasztList = new List<int>();
+
+                string datumSzul = null;
+                var sorok = tartalom.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+                if (sorok.Length >= 2)
+                {
+                    var parts = sorok[1].Split(':');
+                    if (parts.Length >= 2)
+                        datumSzul = parts[1].Trim();
+                }
+
+                if (string.IsNullOrEmpty(datumSzul))
+                {
+                    return "A felhasználói fájl nem tartalmaz érvényes születési dátumot (yyyy-MM-dd).";
+                }
 
                 for (int i = 1; i <= 5; i++)
                 {
@@ -187,16 +184,14 @@ namespace Vernyomas
                     Console.Write("Diasztolés érték (alsó): ");
                     int diaszt = int.Parse(Console.ReadLine());
 
-                    
                     sisztList.Add(sziszt);
                     diasztList.Add(diaszt);
 
-                    string datum = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                    string meresDatum = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
 
-                    VerNyomas vernyomas = new VerNyomas(sziszt, diaszt, datum);
+                    VerNyomas vernyomas = new VerNyomas(sziszt, diaszt, datumSzul);
                     string ertekeles = vernyomas.Ertekeles();
 
-                    // Szín a kockázati szinthez
                     if (ertekeles.Contains("Magas") || ertekeles.Contains("Válságos") || ertekeles.Contains("Ismeretlen érték"))
                         Console.ForegroundColor = ConsoleColor.Red;
                     else
@@ -205,7 +200,7 @@ namespace Vernyomas
                     Console.WriteLine($"Vérnyomás: {sziszt}/{diaszt} mmHg — {ertekeles}");
                     Console.ResetColor();
 
-                    File.AppendAllText(fajlnev, $"\n{datum} — {sziszt}/{diaszt}, {ertekeles}");
+                    File.AppendAllText(fajlnev, $"\n{meresDatum} — {sziszt}/{diaszt}, {ertekeles}");
 
                     osszSziszt += sziszt;
                     osszDiaszt += diaszt;
@@ -214,7 +209,7 @@ namespace Vernyomas
                 double atlagSziszt = osszSziszt / 5;
                 double atlagDiaszt = osszDiaszt / 5;
 
-                VerNyomas atlagVernyomas = new VerNyomas((int)atlagSziszt, (int)atlagDiaszt, datum);
+                VerNyomas atlagVernyomas = new VerNyomas((int)atlagSziszt, (int)atlagDiaszt, datumSzul);
                 string atlagErtekeles = atlagVernyomas.Ertekeles();
 
                 Console.WriteLine("\n--- Átlagolt érték ---");
@@ -228,14 +223,13 @@ namespace Vernyomas
 
                 File.AppendAllText(fajlnev, $"\nÁtlag: {atlagSziszt:F0}/{atlagDiaszt:F0}, {atlagErtekeles}\n");
 
-                
                 string maxMinResult = VerNyomas.MaxMin(sisztList, diasztList);
                 Console.WriteLine("\n--- Maximum és minimum ---");
                 Console.WriteLine(maxMinResult);
                 File.AppendAllText(fajlnev, $"\n{maxMinResult}\n");
 
                 Console.WriteLine("\n--- Magas vérnyomások előfordulása---");
-                int hanyszorMagas = VerNyomas.HanyszorMagas(sisztList, diasztList, eletkor);
+                int hanyszorMagas = VerNyomas.HanyszorMagas(sisztList, diasztList, datumSzul);
                 Console.WriteLine($"\nMagas vérnyomás előfordulása: {hanyszorMagas} alkalom");
                 File.AppendAllText(fajlnev, $"\nMagas vérnyomás előfordulása: {hanyszorMagas} alkalom\n");
 
@@ -248,18 +242,12 @@ namespace Vernyomas
         }
     }
 
-    // --- Vérnyomás osztály ---
-    /// <summary>
-    /// A vérnyomás értékeléséért felelős osztály, amely a szisztolés és diasztolés értékek alapján meghatározza a vérnyomás kategóriáját.
-    /// </summary>
     class VerNyomas
     {
         public int Szisztoles;
         public int Diasztoles;
-        public int Eletkor;
         public string Datum;
 
-        // Konstruktor
         public VerNyomas(int sziszt, int diaszt, string datum)
         {
             Szisztoles = sziszt;
@@ -270,7 +258,7 @@ namespace Vernyomas
         public string Ertekeles()
         {
             int kor = Kor(Datum);
-            // ===== 1–12 év =====
+
             if (kor >= 1 && kor <= 12)
             {
                 if (Szisztoles >= 90 && Szisztoles <= 110 && Diasztoles >= 55 && Diasztoles <= 75)
@@ -286,8 +274,6 @@ namespace Vernyomas
                 else
                     return "Ismeretlen érték";
             }
-
-            // ===== 12–18 év =====
             else if (kor > 12 && kor <= 18)
             {
                 if (Szisztoles >= 100 && Szisztoles <= 119 && Diasztoles >= 60 && Diasztoles <= 69)
@@ -303,8 +289,6 @@ namespace Vernyomas
                 else
                     return "Ismeretlen érték";
             }
-
-            // ===== 18–25 év =====
             else if (kor > 18 && kor <= 25)
             {
                 if (Szisztoles >= 100 && Szisztoles <= 119 && Diasztoles >= 60 && Diasztoles <= 69)
@@ -320,8 +304,6 @@ namespace Vernyomas
                 else
                     return "Ismeretlen érték";
             }
-
-            // ===== 25–40 év =====
             else if (kor > 25 && kor <= 40)
             {
                 if (Szisztoles >= 100 && Szisztoles <= 119 && Diasztoles >= 60 && Diasztoles <= 69)
@@ -337,8 +319,6 @@ namespace Vernyomas
                 else
                     return "Ismeretlen érték";
             }
-
-            // ===== 40–60 év =====
             else if (kor > 40 && kor <= 60)
             {
                 if (Szisztoles >= 100 && Szisztoles <= 119 && Diasztoles >= 60 && Diasztoles <= 69)
@@ -354,8 +334,6 @@ namespace Vernyomas
                 else
                     return "Ismeretlen érték";
             }
-
-            // ===== 60+ év =====
             else if (kor > 60)
             {
                 if (Szisztoles >= 110 && Szisztoles <= 129 && Diasztoles >= 60 && Diasztoles <= 69)
@@ -374,11 +352,6 @@ namespace Vernyomas
             return "teszt";
         }
 
-        /// <summary>
-        /// Meghatározza a mért értékek maximumát és minimumát.
-        /// Bemenet: listák az 5 mérés szisztolés és diasztolés értékeivel.
-        /// Visszatérés: rövid, emberi olvasható szöveg a max/min eredményekkel.
-        /// </summary>
         public static string MaxMin(List<int> sisztList, List<int> diasztList)
         {
             if (sisztList == null || diasztList == null)
@@ -395,12 +368,7 @@ namespace Vernyomas
             return $"Szisztolés — Max: {maxSziszt} mmHg, Min: {minSziszt} mmHg\nDiasztolés — Max: {maxDiaszt} mmHg, Min: {minDiaszt} mmHg";
         }
 
-        /// <summary>
-        /// Meghatározza a mért értékek alapján, hogy hányszor mért magas vérnyomást.
-        /// Bemenet: listák az 5 mérés szisztolés és diasztolés értékeivel és a megadott életkor.
-        /// Visszatérés: Azoknak a méréseknek a száma, amelyek magas vagy válságos vérnyomást jeleznek.
-        /// </summary>
-        public static int HanyszorMagas(List<int> sisztList, List<int> diasztList, string datum)
+        public static int HanyszorMagas(List<int> sisztList, List<int> diasztList, string szuletesiDatum)
         {
             int hanyszor = 0;
             for (int i = 0; i < sisztList.Count; i++)
@@ -408,7 +376,7 @@ namespace Vernyomas
                 int sziszt = sisztList[i];
                 int diaszt = diasztList[i];
 
-                VerNyomas vernyomas = new VerNyomas(sziszt, diaszt, datum);
+                VerNyomas vernyomas = new VerNyomas(sziszt, diaszt, szuletesiDatum);
 
                 string ertekeles = vernyomas.Ertekeles();
                 if (ertekeles.Contains("Magas") || ertekeles.Contains("Válságos"))
@@ -418,6 +386,7 @@ namespace Vernyomas
             }
             return hanyszor;
         }
+
         public static int Kor(string datum)
         {
             var darabolas = datum.Split('-');
@@ -434,6 +403,5 @@ namespace Vernyomas
 
             return kor;
         }
-        
     }
 }
